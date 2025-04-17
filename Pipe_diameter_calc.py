@@ -20,54 +20,46 @@ class Variable:
         return f"{self.name}: {self.value} {self.unit}"
     
     def convert_to(self, new_unit):
-        # Conversion logic can be added here
+        # Conversion logic for flow unit conversion
         match new_unit:
             case "metric":
                 match self.unit:
-                    case "cm":
-                        return self.value / 100, "m"
-                    case "in":
-                        return self.value * 0.0254, "m"
-                    case "L":
-                        return self.value / 1000, "m³"
-                    case "SCCM":
-                        return self.value / 1e6, "m³/s"
+                    case "imperial":
+                        return self.value / 35.3146, "metric"
+                    case "liters":
+                        return self.value / 60000, "metric"
+                    case "standard":
+                        return self.value / 60000000, "metric"
                     case _:
                         return self.value, self.unit
             case "imperial":
                 match self.unit:
-                    case "cm":
-                        return self.value / 2.54, "in"
-                    case "m":
-                        return self.value / 0.0254, "in"
-                    case "L":
-                        return self.value * 61.0237, "in³"
-                    case "SCCM":
-                        return self.value / 28.3168, "ft³/min"
+                    case "metric":
+                        return self.value * 35.3146, "imperial"
+                    case "liters":
+                        return self.value / 1699.0107, "imperial"
+                    case "standard":
+                        return self.value / 471.9472, "imperial"
                     case _:
                         return self.value, self.unit
             case "liters":
                 match self.unit:
-                    case "cm³":
-                        return self.value / 1000, "L"
-                    case "m³":
-                        return self.value * 1000, "L"
-                    case "in³":
-                        return self.value / 61.0237, "L"
-                    case "ft³":
-                        return self.value * 28.3168, "L"
+                    case "metric":
+                        return self.value * 60000, "liters"
+                    case "imperial":
+                        return self.value * 1699.0107, "liters"
+                    case "standard":
+                        return self.value / 1000, "liters"
                     case _:
                         return self.value, self.unit
             case "standard":
                 match self.unit:
-                    case "cm³":
-                        return self.value, "SCCM"
-                    case "m³/s":
-                        return self.value * 1e6, "SCCM"
-                    case "L":
-                        return self.value * 1000, "SCCM"
-                    case "ft³/min":
-                        return self.value * 28316.8, "SCCM"
+                    case "metric":
+                        return self.value * 60000000, "standard"
+                    case "imperial":
+                        return self.value * 471.9472, "standard"
+                    case "liters":
+                        return self.value * 1000, "standard"
                     case _:
                         return self.value, self.unit
             case _:
