@@ -18,6 +18,61 @@ class Variable:
 
     def __repr__(self):
         return f"{self.name}: {self.value} {self.unit}"
+    
+    def convert_to(self, new_unit):
+        # Conversion logic can be added here
+        match new_unit:
+            case "metric":
+                match self.unit:
+                    case "cm":
+                        return self.value / 100, "m"
+                    case "in":
+                        return self.value * 0.0254, "m"
+                    case "L":
+                        return self.value / 1000, "m³"
+                    case "SCCM":
+                        return self.value / 1e6, "m³/s"
+                    case _:
+                        return self.value, self.unit
+            case "imperial":
+                match self.unit:
+                    case "cm":
+                        return self.value / 2.54, "in"
+                    case "m":
+                        return self.value / 0.0254, "in"
+                    case "L":
+                        return self.value * 61.0237, "in³"
+                    case "SCCM":
+                        return self.value / 28.3168, "ft³/min"
+                    case _:
+                        return self.value, self.unit
+            case "liters":
+                match self.unit:
+                    case "cm³":
+                        return self.value / 1000, "L"
+                    case "m³":
+                        return self.value * 1000, "L"
+                    case "in³":
+                        return self.value / 61.0237, "L"
+                    case "ft³":
+                        return self.value * 28.3168, "L"
+                    case _:
+                        return self.value, self.unit
+            case "standard":
+                match self.unit:
+                    case "cm³":
+                        return self.value, "SCCM"
+                    case "m³/s":
+                        return self.value * 1e6, "SCCM"
+                    case "L":
+                        return self.value * 1000, "SCCM"
+                    case "ft³/min":
+                        return self.value * 28316.8, "SCCM"
+                    case _:
+                        return self.value, self.unit
+            case _:
+            # If the unit is not recognized, return the original value and unit
+                return self.value, self.unit
 
 # Example usage
 # var = Variable("Diameter", 10, "cm")
